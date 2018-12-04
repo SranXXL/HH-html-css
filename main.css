@@ -1,96 +1,140 @@
-.Contact-Message-form-wrapper {
-	background-color: #DDD;
+.contact {
+  background-color: #ddd;
 }
-
-.Contact-Message-form {
-	background-color: #FFF; 
-	width: 800px;
-	box-sizing: border-box;
- 	padding: 90px 70px;
- 	border-radius: 2px;
-	margin: 100px auto;
+.contact-message-form {
+  background-color: #fff;
+  width: 800px;
+  box-sizing: border-box;
+  padding: 90px 70px;
+  border-radius: 2px;
+  margin: 100px auto;
 }
-
-.Contact-Icon {
-	background-color: #FFF;
-	background-image: url('letter.png');
-	background-repeat: no-repeat;
-	background-position: center;
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-	border: 2px solid #EEE;
-	position: absolute;
-	top: 50px;
-	left: calc(50% - 50px);	
+.contact-icon {
+  background-color: #fff;
+  background-image: url('letter.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #eee;
+  position: absolute;
+  top: 50px;
+  left: calc(50% - 50px);
 }
-
-.Contact-Headline {
-	font-family: Arial;
-	font-size: 30px;
-	text-align: center;	
-	display: block;
-	margin-bottom: 30px;
+.contact-message-form-headline {
+  font-family: Arial;
+  font-size: 30px;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 30px 0;
 }
-
-.Contact-Name-Email {
-	/* 800 - общая ширина формы
+.contact-message-form-name-email {
+  /* 800 - общая ширина формы
 	 * 2 отступа по 70px = 140px
 	 * 20px промежуток между элементами
 	 * почему без -2px элементы не вмещаются в одну строку? 
 	 * на что они выделяются?
 	 */
-	width: calc((800px - 160px)/2 - 2px);
-	height: 60px;
-	box-sizing: border-box;
-	padding: 18px;
-	border: 2px solid #DDD;
-	outline: none;
-	border-radius: 2px;
-	font-size: 20px;
-	color: #333;
-	display: inline-block;
-	margin-bottom: 30px;
-	display: inline-block;
+  width: calc((800px - 160px)/2 - 2px);
+  height: 60px;
+  box-sizing: border-box;
+  padding: 18px;
+  border: 2px solid #ddd;
+  outline: none;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 30px;
+  display: inline-block;
 }
-
-.Contact-Name {
-	margin-right: 20px;	
+.contact-message-form-name {
+  /* 800 - общая ширина формы
+	 * 2 отступа по 70px = 140px
+	 * 20px промежуток между элементами
+	 * почему без -2px элементы не вмещаются в одну строку? 
+	 * на что они выделяются?
+	 */
+  width: calc((800px - 160px)/2 - 2px);
+  height: 60px;
+  box-sizing: border-box;
+  padding: 18px;
+  border: 2px solid #ddd;
+  outline: none;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 30px;
+  display: inline-block;
+  margin-right: 20px;
 }
-
-.Contact-Message {
-	width: calc(800px - 140px);
-	height: 200px;
-	box-sizing: border-box;
-	padding: 15px;
-	border: 2px solid  #DDD;
-	outline: none;
-	border-radius: 2px;
-	font-size: 16px;
-	color: #333;
-	display: block;
-	margin-bottom: 30px;
+.contact-message-form-name:focus {
+  border: 3px solid #f45;
 }
-
-.Contact-Button-Send {
-	background-color: #F45;
-	width: 100px;
-	height: 50px;
-	box-sizing: border-box;
-	border: 2px solid  #F45;
-	outline: none;
-	border-radius: 2px;
-	font-size: 18px;
-	color: #FFF;
-	display: block;
-	margin: 0px 0px 0px auto;
+.contact-message-form-email {
+  /* 800 - общая ширина формы
+	 * 2 отступа по 70px = 140px
+	 * 20px промежуток между элементами
+	 * почему без -2px элементы не вмещаются в одну строку? 
+	 * на что они выделяются?
+	 */
+  width: calc((800px - 160px)/2 - 2px);
+  height: 60px;
+  box-sizing: border-box;
+  padding: 18px;
+  border: 2px solid #ddd;
+  outline: none;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 30px;
+  display: inline-block;
 }
-
-.Contact-Button-Send:focus, .Contact-Button-Send:active {
-	background-color: #333;
-	border: 3px solid  #333;
+.contact-message-form-email:focus {
+  border: 3px solid #f45;
 }
-
-.Contact-Inputs-focus:focus{
-	border: 3px solid  #F45;
+.contact-message-form-message {
+  width: calc(800px - 140px);
+  height: 200px;
+  box-sizing: border-box;
+  padding: 15px;
+  border: 2px solid #ddd;
+  outline: none;
+  border-radius: 2px;
+  font-size: 16px;
+  color: #333;
+  display: block;
+  margin-bottom: 30px;
+}
+.contact-message-form-message:focus {
+  border: 3px solid #f45;
+}
+.contact-message-form-button-send {
+  background-color: #f45;
+  width: 100px;
+  height: 50px;
+  box-sizing: border-box;
+  border: 2px solid #f45;
+  outline: none;
+  border-radius: 2px;
+  font-size: 18px;
+  color: #fff;
+  display: block;
+  margin: 0px 0px 0px auto;
+}
+.contact-message-form-button-send:focus {
+  background-color: #333;
+  border: 3px solid #333;
+}
+.contact-message-form-button-send:hover {
+  background-color: #333;
+  border: 3px solid #333;
+}
+.contact-message-form-button-send:active {
+  background-color: #333;
+  border: 3px solid #333;
+}
+.contact-message-form-button-send_touched {
+  background-color: #333;
+  border: 3px solid #333;
 }
