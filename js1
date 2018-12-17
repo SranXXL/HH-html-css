@@ -1,0 +1,130 @@
+/* 
+ * ОСТОРОЖНО ГОВНОКОД!
+ * Создатель, т.е. я (Александр Фурсов), не несет ответственности за реакцию вашего организма на данный код.
+ * Сердечникам, несовершеннолетним лицам и беременным женщинам просмотр не рекомендуется.
+ */ 
+
+class Graph {
+
+	constructor(graph) {
+		this.graph = graph;
+    	this.graphValues = {};
+    	this.callStack = [];
+  }
+
+	getParameterList(f) {
+	  // Функция, определяющая зависимости данной вершины от остальных
+	  var s = f.toString();
+	  var start = s.indexOf('(');
+	  var end = s.indexOf(')');
+	  s = s.substring(start + 1, end);
+	  if (s === "")
+	  	return ([]);
+	  else 
+	  	return s.split(', ');
+	}
+
+	static argToString(arg) {
+		// Функция сделана, чтобы не переопределять стандартный метод Array.prototype.toString
+		// Т.к. в результате приведения массива к строке теряются []
+		var str = "";
+		if (typeof(arg) === typeof(Array(0))) {
+			str += '[' + arg + ']';
+		} else {
+			str += arg;
+		}
+		return (str);
+	}
+
+	lazyGraphRecurs(attr) {
+		// Проверка на наличие цикла зависимостей
+		if (this.callStack.indexOf(attr) != -1) {
+			console.log("Error! Cycle.");
+			return -1;
+		}
+		this.callStack.push(attr);
+		// Аттрибут уже был посчитан
+		var answer = this.graphValues[attr];
+		if (answer != undefined) {
+			console.log("Attribute", attr, "has been already calculated:", answer);
+			return 0;
+		}
+		// Аттрибут невозможно вычислить, т.к. в графе не найдено соответствующей вершины
+		var func = this.graph[attr];
+		if (func === undefined) {
+			console.log("Error! Missing argument:", attr);
+			return -1;
+		}
+		// Аттрибут не был вычислен до этого
+		var params = this.getParameterList(func);
+		var funcCall = "func(";
+		for (var i = 0; i < params.length; ++i) {
+			var ret = this.lazyGraphRecurs(params[i]);
+			this.callStack.pop();
+			// Обработка случая x: (y) => y, при этом ключа у не существует
+			if (ret) return -1; 
+			funcCall += Graph.argToString(this.graphValues[params[i]]) + ", ";
+		}
+		funcCall += ");";
+		// Обработка ошибки в случае x: () => y
+		try {
+			this.graphValues[attr] = eval(funcCall);
+		} catch (ReferenceError) {
+			console.log("Error! Invalid dependencies in graph for attribute " + attr + ".");
+			return -1;
+		}
+		return 0;
+	}
+
+	lazyGraph(attr) {
+		var ret = this.lazyGraphRecurs(attr);
+		this.callStack.pop();
+		if (ret)
+			return -1;
+		else 
+			return this.graphValues[attr];
+	}
+
+	eagerGraph() {
+		var res = {};
+		var key;
+		for (key in this.graph) {
+			res[key] = this.lazyGraph(key)
+			this.callStack.pop();
+			if (res[key] === -1) {
+				return -1;
+			}
+		}
+		return res;
+	} 
+}
+
+// Закомментированные ситуации содержат ошибку, обработка которой предусмотрена в программе
+const myAmazingGraph = {
+    n: (xs) => xs.length,
+    //n: () => xs.length, 
+    m: (xs, n) => xs.reduce((store, item) => item + store, 0) / n,
+    m2: (xs, n) => xs.reduce((store, item) => item * store, 1) / n,
+    v: (m, m2) => m*m - m2,
+    xs: () => [1, 2, 3]
+    //xs: (x) => x
+};
+
+const cycleGraph = {
+	x: (y) => y,
+	y: (z) => z,
+	z: (x) => x
+}
+
+var testGraph = new Graph(myAmazingGraph);
+var resAttr;
+resAttr = testGraph.lazyGraph("xs");
+console.log("xs: " +  Graph.argToString(resAttr));
+resAttr = testGraph.lazyGraph("n");
+console.log("n: " +  Graph.argToString(resAttr));
+var resObj = {};
+resObj = testGraph.eagerGraph();
+console.log(resObj);
+
+var testGraph1 = new Graph(cycleGraph);
+resAttr = testGraph1.lazyGraph("x");
