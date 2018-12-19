@@ -7,107 +7,99 @@
 class Graph {
 
 	constructor(graph) {
-		this.graph = graph;
+			this.graph = graph;
     	this.graphValues = {};
     	this.callStack = [];
   }
 
 	getParameterList(f) {
 	  // Функция, определяющая зависимости данной вершины от остальных
-	  var s = f.toString();
-	  var start = s.indexOf('(');
-	  var end = s.indexOf(')');
+	  let s = f.toString();
+	  const start = s.indexOf('(');
+	  const end = s.indexOf(')');
 	  s = s.substring(start + 1, end);
-	  if (s === "")
-	  	return ([]);
-	  else 
-	  	return s.split(', ');
+	  return (s ? s.split(', ') : []);
 	}
 
 	static argToString(arg) {
 		// Функция сделана, чтобы не переопределять стандартный метод Array.prototype.toString
 		// Т.к. в результате приведения массива к строке теряются []
-		var str = "";
-		if (typeof(arg) === typeof(Array(0))) {
-			str += '[' + arg + ']';
-		} else {
-			str += arg;
+		const argIsArr = (typeof(arg) === typeof([0]));
+		return (argIsArr ? '[' + arg + ']' : arg);
+	}
+
+	calcParameters(params) {
+		let args = [];
+		for (let i = 0; i < params.length; ++i) {
+			this.lazyGraphRecurs(params[i]);
+			this.callStack.pop();
+			args.push(Graph.argToString(this.graphValues[params[i]]));
 		}
-		return (str);
+		return ('func(' + args.join(', ') + ');');
 	}
 
 	lazyGraphRecurs(attr) {
 		// Проверка на наличие цикла зависимостей
-		if (this.callStack.indexOf(attr) != -1) {
-			console.log("Error! Cycle.");
-			return -1;
-		}
+		let index = this.callStack.indexOf(attr);
+		if (index != -1) throw new GraphException('Error! Cycle: ' + this.callStack.join(' => ') + ' => ' + this.callStack[0]);
 		this.callStack.push(attr);
+
 		// Аттрибут уже был посчитан
-		var answer = this.graphValues[attr];
-		if (answer != undefined) {
-			console.log("Attribute", attr, "has been already calculated:", answer);
-			return 0;
-		}
+		if (this.graphValues[attr] !== undefined) return;
+
 		// Аттрибут невозможно вычислить, т.к. в графе не найдено соответствующей вершины
-		var func = this.graph[attr];
-		if (func === undefined) {
-			console.log("Error! Missing argument:", attr);
-			return -1;
-		}
+		const func = this.graph[attr];
+		if (func === undefined) throw new GraphException('Error! Missing argument: ' + attr + '.');
+
 		// Аттрибут не был вычислен до этого
-		var params = this.getParameterList(func);
-		var funcCall = "func(";
-		for (var i = 0; i < params.length; ++i) {
-			var ret = this.lazyGraphRecurs(params[i]);
-			this.callStack.pop();
-			// Обработка случая x: (y) => y, при этом ключа у не существует
-			if (ret) return -1; 
-			funcCall += Graph.argToString(this.graphValues[params[i]]) + ", ";
-		}
-		funcCall += ");";
+		const params = this.getParameterList(func);
+		let funcCall = this.calcParameters(params);
+
 		// Обработка ошибки в случае x: () => y
 		try {
 			this.graphValues[attr] = eval(funcCall);
 		} catch (ReferenceError) {
-			console.log("Error! Invalid dependencies in graph for attribute " + attr + ".");
-			return -1;
+			throw new GraphException('Error! Invalid dependencies in graph for attribute ' + attr + '.');
 		}
+
 		return 0;
 	}
 
 	lazyGraph(attr) {
-		var ret = this.lazyGraphRecurs(attr);
-		this.callStack.pop();
-		if (ret)
-			return -1;
-		else 
-			return this.graphValues[attr];
+		try {
+			this.lazyGraphRecurs(attr);
+		} catch (e) {
+			console.log(e.message);
+		}
+		this.callStack = [];
+		return this.graphValues[attr];
 	}
 
 	eagerGraph() {
-		var res = {};
-		var key;
-		for (key in this.graph) {
-			res[key] = this.lazyGraph(key)
-			this.callStack.pop();
-			if (res[key] === -1) {
-				return -1;
+		let res = {};
+		for (let key in this.graph) {
+			res[key] = this.lazyGraph(key);
+			if (res[key] === undefined) {
+				return ({});
 			}
 		}
 		return res;
 	} 
 }
 
+function GraphException(message) {
+		this.message = message;
+}
+
 // Закомментированные ситуации содержат ошибку, обработка которой предусмотрена в программе
 const myAmazingGraph = {
-    n: (xs) => xs.length,
-    //n: () => xs.length, 
-    m: (xs, n) => xs.reduce((store, item) => item + store, 0) / n,
-    m2: (xs, n) => xs.reduce((store, item) => item * store, 1) / n,
-    v: (m, m2) => m*m - m2,
-    xs: () => [1, 2, 3]
-    //xs: (x) => x
+  n: (xs) => xs.length,
+  //n: () => xs.length, 
+  m: (xs, n) => xs.reduce((store, item) => item + store, 0) / n,
+  m2: (xs, n) => xs.reduce((store, item) => item * store, 1) / n,
+  v: (m, m2) => m*m - m2,
+  xs: () => [1, 2, 3]
+  //xs: (x) => x
 };
 
 const cycleGraph = {
@@ -116,15 +108,20 @@ const cycleGraph = {
 	z: (x) => x
 }
 
-var testGraph = new Graph(myAmazingGraph);
-var resAttr;
-resAttr = testGraph.lazyGraph("xs");
-console.log("xs: " +  Graph.argToString(resAttr));
-resAttr = testGraph.lazyGraph("n");
-console.log("n: " +  Graph.argToString(resAttr));
-var resObj = {};
+let resAttr,
+	resObj = {};
+
+let testGraph = new Graph(myAmazingGraph);
+resAttr = testGraph.lazyGraph('xs');
+console.log('xs: ' +  Graph.argToString(resAttr));
+resAttr = testGraph.lazyGraph('n');
+console.log('n: ' +  Graph.argToString(resAttr));
+
 resObj = testGraph.eagerGraph();
 console.log(resObj);
 
-var testGraph1 = new Graph(cycleGraph);
-resAttr = testGraph1.lazyGraph("x");
+let testGraph1 = new Graph(cycleGraph);
+resAttr = testGraph1.lazyGraph('x');
+console.log(resAttr);
+resObj = testGraph1.eagerGraph();
+console.log(resObj);
