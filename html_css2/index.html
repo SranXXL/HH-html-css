@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="https://tech.hh.ru/bloko/styles/css/blocks/icon.css">
+    <link rel="stylesheet" href="css/style.css"/>
+    <title>H/w 2</title>
+</head>
+<body>
+    <div class="modal-wrapper">
+        <div class="modal">
+            <form class="contact-form">
+                <h2 class="contact-form-title">Напишите нам сообщение</h2>
+
+                <div class="contact-form-item">
+                    <p class="contact-form-item__title">УКАЖИТЕ ФАМИЛИЮ И ИМЯ</p>
+                    <div class="contact-form-item__content">
+                        <input type="text" name="FirstName" value="Имя" class="contact-form-item__content__name">
+                        <input type="text" name="LastName" value="Фамилия" class="contact-form-item__content__surname">
+                    </div>
+                </div>
+                
+                <div class="contact-form-item">
+                    <p class="contact-form-item__title">АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ</p>
+                    <input type="text" name="Email" value="example@email.com" class="contact-form-item__field">
+                </div>
+
+                <div class="contact-form-item">
+                    <p class="contact-form-item__title">НОМЕР ТЕЛЕФОНА</p>
+                    <input type="text" name="PhoneNumber" value="+7 800 000000" class="contact-form-item__field">
+                </div>
+
+                <div class="contact-form-item">
+                    <p class="contact-form-item__title">СООБЩЕНИЕ</p>
+                    <textarea class="contact-form-item__field"></textarea>
+                </div>
+                
+                <button class="contact-form-button-send">ОТПРАВИТЬ СООБЩЕНИЕ</button>
+            </form>
+
+            <aside class="contact-info">
+                <div class="contact-info-item">
+                    <div class="contact-info-item__icon">
+                        <span class="bloko-icon bloko-icon_change-position bloko-icon_initial-inverted"></span>
+                    </div>
+                    <div class="contact-info-item__content">
+                        <p class="contact-info-item__title">Адрес</p>
+                        <p class="contact-info-item__text">Москва, Годовикова 9/10</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-info-item__icon">
+                        <span class="bloko-icon bloko-icon_phone bloko-icon_initial-inverted"></span>
+                    </div>
+                    <div class="contact-info-item__content">
+                        <p class="contact-info-item__title">Давайте поговорим</p>
+                        <a href="tel:+78001236879" class="contact-info-item__link">+7 800 1236879</a>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-info-item__icon">
+                        <span class="bloko-icon bloko-icon_mail-outline bloko-icon_initial-inverted"></span>
+                    </div>
+                    <div class="contact-info-item__content">
+                        <p class="contact-info-item__title">Служба поддержки</p>
+                        <a href="mailto:support@example.com" class="contact-info-item__link">support@example.com</a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</body>
+</html>
