@@ -1,0 +1,96 @@
+.modal-wrapper {
+	min-height: 900px;
+	background: linear-gradient(180deg, #0e81d6, rgba(235, 239, 15, 0.8)), url('../img/hay.jpg');
+	background-size: cover;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.header {
+	width: 100%;
+	height: 150px;
+	padding-top: 30px;
+	border: solid 1px #d62843;
+	font-size: 20px;
+	color: #d62843;
+	text-align: center;
+	background: url('../img/pattern.jpeg');
+	background-size: contain;
+}
+
+.modal {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 30px;
+}
+
+.modal-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	width: 500px;
+	height: 650px;
+	padding: 20px;
+	border: solid 5px #d62843;
+	background: #fff;
+}
+
+.modal-form_city_selector {
+	width: 350px;
+	height: 50px;
+	padding: 10px;
+	border: solid 2px #d62843;
+	border-radius: 2px 2px 0 0;
+	font-size: 15px;
+}
+
+.modal-form_city_selector:focus {
+	outline: solid 2px #d62843;
+}
+
+.modal-form_selector_list {
+	display: none;
+	width: 350px;
+	max-height: 200px;
+	padding: 5px;
+	margin: 0;
+	border: solid 2px #d62843;
+	border-top: none;
+	border-radius: 0 0 5px 5px;
+	background: #fff;
+	position: absolute;
+	overflow: auto;
+}
+
+.modal-form_selector_list_el {
+	font-size: 18px;
+}
+
+.modal-form_selector_list_el:focus {
+	outline: none;
+	color: #fff;
+	background: #d62843;
+}
+
+.modal-form_country_radios {
+	display: flex;
+	flex-direction: column;
+	width: 350px;
+	margin: 20px 0;
+}
+
+.modal-form_symbol {
+	width: 200px;
+	height: 200px;
+}
+
+.modal-villager {
+	width: 600px;
+	height: 650px;
+	border: solid 5px #D62843;
+}
+
